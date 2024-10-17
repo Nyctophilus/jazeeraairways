@@ -19,8 +19,8 @@ export default {
     },
     extend: {
       colors: {
-        main: { DEFAULT: "#004a97", foreground: "#dfdada" },
-        alt: "#0d84c7",
+        main: { DEFAULT: "#004a97", light: "#0d84c7", foreground: "#dfdada" },
+        alt: "#ffce00",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -5,8 +5,8 @@ import ButtonShapeTabs from "../ui/NavTabs";
 const Navbar = () => {
   return (
     <header className="p-4 flex justify-between bg-main/10">
-      <div className="container flex justify-between">
-        <img src="/assets/images/logo.webp" alt="logo" className="h-10" />
+      <div className="container flex items-center justify-between">
+        <img src="/assets/images/logo.webp" alt="logo" className="h-14" />
 
         <div className="hidden lg:block">
           <ButtonShapeTabs />

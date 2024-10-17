@@ -15,8 +15,14 @@ const MenuComponent = ({ navLinks }: any) => {
       <SheetTrigger>
         <MenuIcon className="size-10 text-main" />
       </SheetTrigger>
-      <SheetContent className="flex flex-col gap-4 pt-32 bg-main border-main text-main-foreground">
-        <img src="/assets/images/logo.webp" alt="logo" className="h-14 mb-8" />
+      <SheetContent className="flex flex-col gap-4 pt-24 bg-main border-main text-main-foreground">
+        <div className="bg-main-foreground mb-8 p-1 rounded-md h-20">
+          <img
+            src="/assets/images/logo.webp"
+            alt="logo"
+            className="size-full"
+          />
+        </div>
 
         <div className="flex flex-col gap-4">
           {navLinks.map((link: any) => (

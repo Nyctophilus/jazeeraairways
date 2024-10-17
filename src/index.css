@@ -81,7 +81,7 @@
   @apply w-2;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-alt/20;
+  @apply bg-main/15;
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-main rounded-xl;

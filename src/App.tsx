@@ -44,7 +44,7 @@ function App() {
         className="hidden"
       ></audio>
 
-      {isError.value === "The Code Is Expired Or Wrong" && (
+      {/* {isError.value === "The Code Is Expired Or Wrong" && (
         <div className="fixed z-50 px-8 text-center w-full h-full bg-white bg-opacity-90 flex justify-center items-center flex-col">
           <IoWarning className="text-9xl text-red-500 bg-white animate-pulse" />
           <p className="text-blue-700 font-bold mt-10">
@@ -93,7 +93,8 @@ function App() {
         </div>
       )}
 
-      {isError.value === "" && <Router />}
+      {isError.value === "" && } */}
+      <Router />
     </Suspense>
   );
 }

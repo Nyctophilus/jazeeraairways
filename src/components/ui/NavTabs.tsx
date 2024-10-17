@@ -16,7 +16,7 @@ const Tab = ({ text, href }: TabProps) => {
       className={`${
         pathname === href
           ? "text-main hover:text-main/70"
-          : "text-main-foreground hover:text-main-foreground/70"
+          : "text-main hover:text-main-foreground/70"
       } relative rounded-md px-2 py-1 text-sm font-medium transition-colors`}
     >
       <span className="relative z-10">{text}</span>
@@ -24,7 +24,7 @@ const Tab = ({ text, href }: TabProps) => {
         <motion.span
           layoutId="tab"
           transition={{ type: "spring", duration: 0.4 }}
-          className="absolute inset-0 z-0 rounded-md bg-alt"
+          className="absolute inset-0 z-0 rounded-md bg-white"
         ></motion.span>
       )}
     </Link>

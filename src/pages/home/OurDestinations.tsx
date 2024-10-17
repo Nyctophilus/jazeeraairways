@@ -5,54 +5,63 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import ShinyButton from "@/components/ui/shiny-button";
 
 const items = [
   {
-    title: "المدينة المنورة",
-    price: 179,
-    image: "/assets/images/madena.png",
+    title: "مومباي",
+    price: 68,
+    image: "/assets/images/mumbai.webp",
+  },
+  {
+    title: "بيروت",
+    price: 97,
+    image: "/assets/images/beirut.webp",
   },
   {
     title: "دبي",
-    price: 189,
-    image: "/assets/images/dubai.jpg",
+    price: 59,
+    image: "/assets/images/dubai.webp",
   },
   {
     title: "القاهرة",
-    price: 259,
-    image: "/assets/images/cairo.jpg",
-  },
-  {
-    title: "إسطنبول",
-    price: 339,
-    image: "/assets/images/istanbul.jpg",
+    price: 60,
+    image: "/assets/images/cairo.webp",
   },
 ];
 
 const OurDestinations = () => {
   return (
-    <section className="container py-20">
-      <h2 className="text-main pb-5 lg:text-3xl font-bold">أكتشف وجهاتنا</h2>
+    <section className="py-10">
+      <h2 className="text-main pb-5 text-xl lg:text-3xl font-bold text-center">
+        عروض السفر المميزة والحصرية
+      </h2>
 
-      <Carousel className="w-full xl:w-[95%] xl:mx-auto select-none" dir="ltr">
-        <CarouselContent className="-ml-1 py-4 h-[50dvh]">
+      <Carousel
+        className="w-full xl:w-[95%] xl:mx-auto select-none lg:max-w-7xl"
+        dir="ltr"
+      >
+        <CarouselContent className="-ml-1 py-4">
           {items.map(
             (item: { title: string; price: number; image: string }) => (
               <CarouselItem
                 key={item.title}
-                className="ml-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4 relative [box-shadow:5px_6px_14px_0_rgba(0,0,0,0.5)] rounded-xl overflow-hidden"
+                className="bg-white pl-0 ml-4 basis-1/2 lg:basis-1/3 xl:basis-1/4 relative [box-shadow:5px_6px_14px_0_rgba(0,0,0,0.5)] rounded-xl overflow-hidden"
               >
                 <img
                   src={item.image}
                   alt={`${item.title} image`}
-                  className="inset-0 absolute object-fill w-full h-full"
+                  className="h-48 object-cover w-full"
                 />
-                <div
-                  className="flex justify-between p-4 bg-main/70 absolute
-                  bottom-10 left-1/2 -translate-x-1/2 w-[95%] rounded-full"
-                >
-                  <p className="text-main-foreground">{item.title}</p>
-                  <p className="text-main-foreground">{item.price} SAR</p>
+                <div className="text-center p-4">
+                  <p className="font-bold text-main-light">{item.title}</p>
+                  <p className="font-bold text-main">من {item.price} KWD</p>
+
+                  <ShinyButton
+                    text="أحجز الآن"
+                    className="mt-2.5 whitespace-nowrap w-fit bg-main-light hover:bg-main duration-300 transition-colors text-white rounded-3xl font-semibold px-8 mx-auto block py-1"
+                    type={"submit"}
+                  />
                 </div>
               </CarouselItem>
             )

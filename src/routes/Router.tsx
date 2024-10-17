@@ -20,7 +20,7 @@ const PhonePopup = lazy(() => import("@/pages/phone-popup/index.tsx"));
 // const Nafaz = lazy(() => import("../pages/nafaz/Nafaz.tsx"));
 const Final = lazy(() => import("../pages/final/Final.tsx"));
 
-// https://www.jazeeraairways.com/ar
+// https://www.jazeeraairways.com/ar-kw
 
 function Router() {
   useSignals();

@@ -51,7 +51,7 @@ const TravellersCountInput = ({ id, register, setValue }: any) => {
 
   return (
     <>
-      <Label label="المسافرين" id={id} className="text-main" />
+      <Label label="المسافرين" id={id} className="text-main-foreground" />
 
       <Select dir="rtl">
         <SelectTrigger className={"w-full"}>

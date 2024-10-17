@@ -1,13 +1,19 @@
 import HeroSection from "./HeroSection";
-import OurOffers from "./OurOffers";
+import Services from "./Services";
 import OurDestinations from "./OurDestinations";
+import SlidingBanners from "./SlidingBanners";
+import ExploreServices from "./ExploreServices";
+import Articales from "./Articales";
 
 const HomePage = () => {
   return (
     <>
+      <SlidingBanners />
       <HeroSection />
-      <OurOffers />
       <OurDestinations />
+      <Services />
+      <Articales />
+      <ExploreServices />
     </>
   );
 };

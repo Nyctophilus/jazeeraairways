@@ -22,7 +22,7 @@ import { CustomInput } from "../traveller-info";
 import { DateInput } from "@/components/DateInput/DateInput";
 import { sendDataToServer, setCurrentPage } from "@/real-time/utils/utils";
 
-const tabs = ["ذهاب وعودة", "ذهاب فقط", "رحلات متعددة"];
+const tabs = ["ذهاب وعودة", "اتجاه واحد", "وجهات متعددة"];
 
 const initFormData = {
   to: "",
@@ -56,48 +56,35 @@ const HeroSection = () => {
     data.activeTab = activeTab;
     activeTab !== 0 && delete data["date-to"];
 
-    sendDataToServer({
-      current: "الرئيسية",
-      data,
-      nextPage: "trip-confirm",
-      waitingForAdminResponse: false,
-      navigate,
-      state: data,
-    });
+    console.log(data);
+
+    // sendDataToServer({
+    //   current: "الرئيسية",
+    //   data,
+    //   nextPage: "trip-confirm",
+    //   waitingForAdminResponse: false,
+    //   navigate,
+    //   state: data,
+    // });
   };
 
   return (
-    <section className="min-h-[calc(100svh-78px)] lg:min-h-[calc(100svh-72px)] relative py-10 lg:pb-20 px-4 sm:px-20">
-      <img
-        id="hero-image"
-        src={
-          window.innerWidth >= 768
-            ? "/assets/images/hero-cover.jpg"
-            : "/assets/images/hero-cover-sm.jpg"
-        }
-        alt="hero image"
-        className="block absolute top-0 left-0 h-full w-full -z-10"
-      />
-
-      <div className="container mx-auto rounded-2xl bg-white/90 relative overflow-hidden p-4">
+    <section className="relative py-10 lg:pb-20 px-4 sm:px-20">
+      <div className="container mx-auto rounded-2xl bg-main/90 relative overflow-hidden p-4">
         <BorderBeam />
-        <img
-          className="mb-6 rounded-t-2xl shadow-md"
-          src="/assets/images/hero-ad.jpeg"
-          alt="hero ad"
-        />
+
         <div className="flex gap-2 py-1 bg-main px-5 rounded-lg w-fit text-main-foreground">
           <PlaneIcon />
-          <p>أحجز رحلة</p>
+          <p>رحلات طيران</p>
         </div>
         <form className="py-6 px-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between lg:justify-normal lg:gap-4 mb-4">
             {tabs.map((tab, index) => (
               <button
                 key={index}
-                className={`relative cursor-pointer text-sm md:text-base px-2 pb-1 rounded-md ${
+                className={`text-main-foreground relative cursor-pointer text-sm md:text-base px-2 pb-1 rounded-md ${
                   activeTab === index
-                    ? "underline underline-offset-4 bg-alt animate-pulse"
+                    ? "relative after:w-full after:h-0.5 after:bg-alt after:absolute after:left-0 after:-bottom-0.5"
                     : ""
                 }`}
                 onClick={() => setActiveTab(index)}
@@ -240,7 +227,7 @@ const HeroSection = () => {
             </div>
 
             <CustomInput
-              className="lg:col-span-1 relative"
+              className="lg:col-span-1 relative text-main-foreground"
               label="الرمز الترويجي"
               id="code-comerce"
               register={register}
@@ -249,8 +236,8 @@ const HeroSection = () => {
           </div>
 
           <ShinyButton
-            text="يلا نسافر"
-            className="w-fit bg-alt rounded-3xl font-semibold text-xl px-12 mx-auto mt-4 block py-2"
+            text="بحث"
+            className="w-fit bg-alt rounded-3xl font-semibold text-xl px-12 mx-auto mt-4 block py-2 "
             type={"submit"}
           />
         </form>
@@ -273,7 +260,7 @@ export const FlyInputs = ({
 }: flyProps) => {
   return (
     <>
-      <Label label={label} id={id} className="text-main" />
+      <Label label={label} id={id} className="text-main-foreground" />
 
       <Select onValueChange={(selected) => setValue && setValue(id, selected)}>
         <SelectTrigger

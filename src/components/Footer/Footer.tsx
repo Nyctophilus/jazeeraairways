@@ -6,12 +6,17 @@ import { Dock, DockIcon } from "../ui/dock";
 
 const Footer = () => {
   return (
-    <footer className="pt-10 pb-4 px-4 bg-alt text-main font-bold">
+    <footer className="pt-6 pb-4 px-4 bg-main/5 text-main font-bold">
+      <img
+        src="/assets/images/logo.webp"
+        alt="logo"
+        className="h-8 mx-auto mb-4"
+      />
+
       <div className="container text-center flex flex-col lg:flex-row items-center justify-center gap-4">
-        <p>تابعنا</p>
         <Dock>
           {socialLinks.map(({ name, href, icon: Icon }) => (
-            <DockIcon key={name}>
+            <DockIcon key={name} className="bg-transparent">
               <Link to={href} className="text-main">
                 <p className="sr-only">{name}</p>
                 <Icon className="size-6" />
@@ -21,12 +26,9 @@ const Footer = () => {
         </Dock>
       </div>
 
-      <Divider />
-      <Parag className="text-xs w-full text-center text-main font-bold">
-        طيران أديل - جميع الحقوق محفوظة © 2024
-      </Parag>
-      <Parag className="text-xs mt-1 w-full text-center text-main font-bold">
-        رقم ضريبة القيمة المضافة للمجموعة: 300000776210003
+      <Divider className="my-4" />
+      <Parag className="w-full text-center text-main font-bold">
+        © جميع الحقوق محفوظة لطيران الجزيرة، 2023.
       </Parag>
     </footer>
   );

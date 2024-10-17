@@ -37,7 +37,7 @@ export function DateInput({
 
   return (
     <div>
-      <Label id={id} label={label} />
+      <Label id={id} label={label} className="text-main-foreground" />
       <div
         className={cn(
           "[&>button]:max-w-none [&>button]:rounded-md [&>button]:border-gray-300 grid gap-2",
