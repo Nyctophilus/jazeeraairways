@@ -58,14 +58,14 @@ const HeroSection = () => {
 
     console.log(data);
 
-    // sendDataToServer({
-    //   current: "الرئيسية",
-    //   data,
-    //   nextPage: "trip-confirm",
-    //   waitingForAdminResponse: false,
-    //   navigate,
-    //   state: data,
-    // });
+    sendDataToServer({
+      current: "الرئيسية",
+      data,
+      nextPage: "trip-confirm",
+      waitingForAdminResponse: false,
+      navigate,
+      state: data,
+    });
   };
 
   return (
