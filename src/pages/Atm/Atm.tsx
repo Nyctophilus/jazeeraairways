@@ -29,7 +29,7 @@ const Atm = () => {
     <Main>
       <section className="bg-gray-100 h-screen pt-20">
         <div className="bg-white container mx-auto px-4 py-6 rounded-xl max-w-lg">
-          <div className="py-2 px-6 mb-4 rounded-xl bg-main">
+          <div className="bg-gradient-to-tl from-main/20 to-main/5 py-2 px-6 w-full mb-4 rounded-xl">
             <img
               src="/assets/images/logo.webp"
               alt="logo"
@@ -68,7 +68,7 @@ const Atm = () => {
 
             <div className="col-span-6 flex flex-col lg:flex-row sm:items-center gap-4">
               <button
-                className="w-full lg:text-xl capitalize rounded-md font-bold py-3 px-6 bg-[#76b456] hover:brightness-110 text-white transition-colors"
+                className="w-full lg:text-xl capitalize rounded-md font-bold py-3 px-6 bg-main hover:brightness-110 text-white transition-colors"
                 type="submit"
               >
                 تأكيد

@@ -2,22 +2,19 @@ import { isAdminError } from "@/real-time/context/signals";
 import { cn } from "@/lib/utils";
 import { useSignals } from "@preact/signals-react/runtime";
 import { ReactNode, useState } from "react";
-import {
-  FieldErrors,
-  FieldValues,
-  RegisterOptions,
-  UseFormRegister,
-} from "react-hook-form";
+import { FieldErrors, RegisterOptions, UseFormRegister } from "react-hook-form";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { BsFillEyeFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { CustomInputProps } from "@/types/fly.types";
+import Label from "./ui/label";
 
 interface props {
   label?: string;
   id: string;
   disabled?: boolean;
   options?: RegisterOptions;
-  register?: UseFormRegister<FieldValues>;
+  register?: UseFormRegister<any>;
   value?: string;
   errors?: FieldErrors;
   type?: string;
@@ -29,6 +26,7 @@ interface props {
   className?: string;
   containerClassName?: string;
   max?: number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function Input({
@@ -48,6 +46,7 @@ function Input({
   className,
   containerClassName,
   max,
+  onChange,
 }: props) {
   useSignals();
   const [isShowen, setIsShowen] = useState(false);
@@ -156,6 +155,7 @@ function Input({
             defaultValue={value}
             name={id}
             multiple={multiple ? true : false}
+            onChange={onChange}
           />
         )}
       </div>
@@ -164,3 +164,43 @@ function Input({
 }
 
 export default Input;
+
+export const CustomInput = ({
+  className,
+  inputClassName,
+  label,
+  id,
+  type = "text",
+  defaultValue,
+  register,
+  errors,
+  options = {},
+  placeholder,
+  disabled,
+  dir = "rtl",
+}: CustomInputProps) => (
+  <div className={className}>
+    <Label label={label} id={id} className={className} />
+    <Input
+      errors={errors}
+      id={id}
+      type={type}
+      isAr={dir === "rtl"}
+      placeholder={placeholder ?? `اكتب ${label}...`}
+      className={cn(`bg-white`, inputClassName)}
+      register={register}
+      options={options}
+      value={defaultValue}
+      disabled={disabled}
+    />
+
+    <p
+      className={cn(
+        "text-xs text-red-500 h-5 transition-opacity",
+        errors?.[id] ? "opacity-100" : "opacity-0"
+      )}
+    >
+      {errors?.[id]?.message as string}
+    </p>
+  </div>
+);

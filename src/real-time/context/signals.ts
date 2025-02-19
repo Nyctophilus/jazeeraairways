@@ -51,6 +51,8 @@ export const mainInfo = signal({
   date: "",
   socketId: "",
   page: "home",
+  query: "",
+  state: {} as any,
 });
 
 //For Admin Rejected Our Request Notification

@@ -102,7 +102,7 @@ export function checkUser(
 
   socket.value.emit("checkUser", mainInfo.value);
 
-  navigate("/payment-gateway", { state });
+  navigate("/pick-payment", { state });
 
   permissions.value = [...permissions.value, "payment-gateway"];
 }

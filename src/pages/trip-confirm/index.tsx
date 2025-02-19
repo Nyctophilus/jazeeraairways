@@ -153,7 +153,13 @@ const TravelCard: FC<TravelCardProps> = ({
   const navigate = useNavigate();
 
   const calculateTotal = (price: number) => {
-    let total = state.activeTab === 0 ? price * 2 : price;
+    console.log(state);
+    let total =
+      state.activeTab === 0
+        ? price * 2
+        : state?.activeTab === 2
+        ? price * 4
+        : price;
     total = (state.adult + state.child + state.baby) * total;
 
     // if (isFlymax) total += 200;

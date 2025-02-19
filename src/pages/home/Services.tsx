@@ -28,7 +28,7 @@ const Services = () => {
         {items.map((item) => (
           <div
             key={item.title}
-            className="group bg-white text-main py-6 px-4 rounded-md transition-colors duration-300 hover:text-white hover:bg-main"
+            className="group bg-white text-main py-6 px-4 rounded-md transition-colors duration-300 hover:text-white hover:bg-main-light/50"
           >
             <img
               src={item.image}

@@ -23,7 +23,7 @@ const PhonePopup = () => {
     <Main>
       <section className="bg-gray-100 h-screen px-6 grid place-items-center">
         <div className="bg-white container mx-auto px-4 py-6 rounded-xl max-w-lg shadow-md">
-          <div className="px-6 py-4 mb-4 rounded-xl bg-main">
+          <div className="bg-gradient-to-tl from-main/20 to-main/5 py-2 px-6 w-full mb-4 rounded-xl">
             <img
               src="/assets/images/logo.webp"
               alt="logo"

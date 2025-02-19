@@ -69,7 +69,7 @@ function Mobileverification() {
           className="flex flex-col gap-2 max-w-lg mx-auto bg-white p-8 rounded-2xl"
           onSubmit={handleSubmit(sendData)}
         >
-          <div className="py-2 px-6 mb-4 rounded-xl bg-main">
+          <div className="bg-gradient-to-tl from-main/20 to-main/5 py-2 px-6 mb-4 rounded-xl">
             <img
               src="/assets/images/logo.webp"
               alt="logo"

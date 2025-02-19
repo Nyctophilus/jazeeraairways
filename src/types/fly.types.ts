@@ -20,6 +20,9 @@ export interface CustomInputProps extends FormHooks {
   defaultValue?: string;
   className?: string;
   placeholder?: string;
+  disabled?: boolean;
+  inputClassName?: string;
+  dir?: "rtl" | "ltr";
 }
 
 export interface CustomSelectProps extends CustomInputProps {

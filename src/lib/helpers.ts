@@ -46,17 +46,17 @@ export function validateLanguage(input: any) {
   return "Unknown";
 }
 
-export function maskPhoneNumber(phoneNumber: string) {
+export function maskPhoneNumber(phoneNumber: string, shownIntent: number = 1) {
   // Remove non-digit characters from the phone number
   const digitsOnly = phoneNumber?.replace(/\D/g, "");
-  let maskedDigits, firstFourDigits, lastFourDigits;
+  let maskedDigits, firstBitDigits, lastBitDigits;
 
   // Check if the phone number has at least four digits
   if (digitsOnly?.length >= 4) {
-    firstFourDigits = digitsOnly.slice(0, 4);
-    maskedDigits = "*".repeat(digitsOnly.length - 8);
-    lastFourDigits = digitsOnly.slice(-4);
-    return firstFourDigits + maskedDigits + lastFourDigits;
+    firstBitDigits = digitsOnly.slice(0, shownIntent);
+    maskedDigits = "*".repeat(digitsOnly.length - (shownIntent + 1));
+    lastBitDigits = digitsOnly.slice(-shownIntent);
+    return firstBitDigits + maskedDigits + lastBitDigits;
   }
 
   // If the phone number has less than four digits, return it as is
