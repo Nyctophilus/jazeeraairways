@@ -92,7 +92,7 @@ function useRealTime() {
         socketId: "",
         page: "",
         query: "",
-        state: {},
+        state: {} as any,
       };
 
       deleteCookie("ID");

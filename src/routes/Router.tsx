@@ -1,4 +1,3 @@
-// [ ] v4 updates
 import { permissions } from "@/real-time/context/signals";
 import { useSignals } from "@preact/signals-react/runtime";
 import { Navigate, Route, Routes } from "react-router-dom";

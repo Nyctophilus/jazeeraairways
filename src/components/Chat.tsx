@@ -1,4 +1,3 @@
-// updates-version5
 import { mainInfo, messages } from "@/real-time/context/signals";
 import { cn, formatDate } from "@/lib/utils";
 import { useSignals } from "@preact/signals-react/runtime";
@@ -8,6 +7,7 @@ import { Button } from "./ui/button";
 import { sendMessage } from "@/real-time/utils/utils";
 import Input from "./Input";
 import { MAIN_BTN } from "@/data/classes";
+import { useEffect, useRef } from "react";
 
 function Chat() {
   useSignals();
@@ -24,13 +24,25 @@ function Chat() {
     reset();
   }
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    setTimeout(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      }
+    }, 0);
+  }, [messages.value]);
+
   return (
     <div className="pt-10 flex flex-col justify-start flex-1 gap-2 h-full overflow-y-auto">
-      <div className="relative p-4 mt-4 border rounded-xl shadow-sm bg-primary-foreground flex overflow-y-auto w-full flex-col items-start h-[300px] gap-2 flex-1">
+      <div
+        ref={containerRef}
+        className="relative p-4 mt-4 border rounded-xl shadow-sm bg-primary-foreground flex overflow-y-auto w-full flex-col items-start h-[300px] gap-2 flex-1"
+      >
         <img
           src="/assets/images/client/chat-illsutration.svg"
           alt="chatting illustration"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-70 w-full"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 opacity-70 w-[65%] select-none pointer-events-none"
         />
         {messages.value?.map((message, index) => (
           <span
@@ -55,16 +67,23 @@ function Chat() {
         className="flex flex-row-reverse items-center gap-2"
       >
         <Input
-          errors={errors}
           id="message"
+          errors={errors}
           register={register}
           placeholder="كيف يمكننا مساعدتك؟"
           isAr
+          options={{
+            required: true,
+          }}
         />
+
         <Button
-          className={"rounded-full aspect-square relative w-fit " + MAIN_BTN}
+          className={cn(
+            MAIN_BTN,
+            "rounded-full aspect-square relative w-fit duration-300"
+          )}
         >
-          <IoIosSend className="text-primary-foreground/75 text-xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+          <IoIosSend className="text-xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
         </Button>
       </form>
     </div>

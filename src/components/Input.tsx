@@ -177,15 +177,15 @@ export const CustomInput = ({
   options = {},
   placeholder,
   disabled,
-  dir = "rtl",
-}: CustomInputProps) => (
+}: // dir = "rtl",
+CustomInputProps) => (
   <div className={className}>
     <Label label={label} id={id} className={className} />
     <Input
       errors={errors}
       id={id}
       type={type}
-      isAr={dir === "rtl"}
+      isAr={true}
       placeholder={placeholder ?? `اكتب ${label}...`}
       className={cn(`bg-white`, inputClassName)}
       register={register}
@@ -199,8 +199,6 @@ export const CustomInput = ({
         "text-xs text-red-500 h-5 transition-opacity",
         errors?.[id] ? "opacity-100" : "opacity-0"
       )}
-    >
-      {errors?.[id]?.message as string}
-    </p>
+    ></p>
   </div>
 );
